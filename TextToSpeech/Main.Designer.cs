@@ -43,6 +43,7 @@
             this.btStartStop.TabIndex = 0;
             this.btStartStop.Text = "Читати";
             this.btStartStop.UseVisualStyleBackColor = true;
+            this.btStartStop.Click += new System.EventHandler(this.btStartStop_Click);
             // 
             // mmText
             // 
