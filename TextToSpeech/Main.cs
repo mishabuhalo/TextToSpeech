@@ -22,6 +22,7 @@ namespace TextToSpeech
 
         private void btStartStop_Click(object sender, EventArgs e)
         {
+            speech.Text = mmText.Text;
             speech.Start();
         }
     }
