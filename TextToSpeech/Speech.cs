@@ -20,9 +20,7 @@ namespace TextToSpeech
 
     class Speech
     {
-        bool bassReady = false;
-        int stream = 0;
-
+        int stream;
         bool active = false;
         bool terminated = false;
         string text = "";
@@ -49,13 +47,7 @@ namespace TextToSpeech
 
         public void Start()
         {
-            /*
-                stream = Bass.BASS_StreamCreateFile("Sounds.mp3", 0L, 0L, BASSFlag.BASS_DEFAULT);
-                if (stream != 0)
-                {
-                    Bass.BASS_ChannelPlay(stream, false);
-                }   
-            */
+            active = true;
             while (!terminated && position < text.Length)
             {
                 SpeechPart part = GetPart();
@@ -68,12 +60,15 @@ namespace TextToSpeech
                 {
                     position++;
                 }
+
+                For
             }
+            active = false;
         }
 
         public void Stop()
         {
-            Bass.BASS_ChannelStop(stream);
+            terminated = true;
         }
 
         public bool Active => active;
