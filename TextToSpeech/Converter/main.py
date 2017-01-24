@@ -34,16 +34,16 @@ def main():
 
                     outfile.writeframes(infile.readframes(frames))
                     result.append({
-                        "part": part["part"],
-                        "start": position,
-                        "duration": duration
+                        "Part": part["part"],
+                        "Start": position,
+                        "Duration": duration
                     })
                     position = outfile.getnframes() * 1000 / outfile.getframerate()
             else:
                 result.append({
-                    "part": part["part"],
-                    "start": -1,
-                    "duration": part["wait"]
+                    "Part": part["part"],
+                    "Start": -1,
+                    "Duration": part["wait"]
                 })
 
     with open(RESULT, "w") as r:
