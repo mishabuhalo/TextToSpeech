@@ -37,7 +37,7 @@ namespace TextToSpeech
             }
 
             Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
-            stream = Bass.BASS_StreamCreateFile("Sounds.mp3", 0L, 0L, BASSFlag.BASS_DEFAULT);
+            stream = Bass.BASS_StreamCreateFile("Sounds.wav", 0L, 0L, BASSFlag.BASS_DEFAULT);
         }
 
         ~Speech()
@@ -60,8 +60,6 @@ namespace TextToSpeech
                 {
                     position++;
                 }
-
-                For
             }
             active = false;
         }
