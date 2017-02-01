@@ -56,7 +56,7 @@
             this.mmText.Name = "mmText";
             this.mmText.Size = new System.Drawing.Size(454, 210);
             this.mmText.TabIndex = 1;
-            this.mmText.Text = "Мама мила раму";
+            this.mmText.Text = "Мама мила раму\r\nРаму мила мама";
             // 
             // fmMain
             // 
