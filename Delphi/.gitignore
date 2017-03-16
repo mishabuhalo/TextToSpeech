@@ -1,0 +1,6 @@
+__history/
+/units/
+*.dproj.local
+*.identcache
+*.stat
+*.pyc
