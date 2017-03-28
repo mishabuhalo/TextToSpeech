@@ -1,5 +1,6 @@
 ﻿using System;
 using Un4seen.Bass;
+using Un4seen.Bass.AddOn.Fx;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.IO;
@@ -37,7 +38,9 @@ namespace TextToSpeech
             }
 
             Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
-            stream = Bass.BASS_StreamCreateFile("Sounds.wav", 0L, 0L, BASSFlag.BASS_DEFAULT);
+            stream = Bass.BASS_StreamCreateFile("Sounds.wav", 0L, 0L, BASSFlag.BASS_STREAM_DECODE);
+            stream = BassFx.BASS_FX_TempoCreate(stream, BASSFlag.BASS_SAMPLE_LOOP | BASSFlag.BASS_FX_FREESOURCE);
+            Bass.BASS_ChannelSetAttribute(stream, BASSAttribute.BASS_ATTRIB_TEMPO, 0);
 
             worker = new BackgroundWorker();
             worker.WorkerSupportsCancellation = true;
