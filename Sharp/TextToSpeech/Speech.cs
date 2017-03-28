@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.IO;
 using System.Threading;
+using System.ComponentModel;
 
 namespace TextToSpeech
 {
@@ -21,10 +22,9 @@ namespace TextToSpeech
     class Speech
     {
         int stream;
-        bool active = false;
-        bool terminated = false;
         string text = "";
         int position = 0;
+        BackgroundWorker worker;
 
         SpeechPart[] parts;
 
@@ -38,6 +38,11 @@ namespace TextToSpeech
 
             Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
             stream = Bass.BASS_StreamCreateFile("Sounds.wav", 0L, 0L, BASSFlag.BASS_DEFAULT);
+
+            worker = new BackgroundWorker();
+            worker.WorkerSupportsCancellation = true;
+            worker.DoWork += Run;
+            worker.RunWorkerCompleted += Done;
         }
 
         ~Speech()
@@ -45,10 +50,9 @@ namespace TextToSpeech
             Bass.BASS_Free();
         }
 
-        public void Start()
+        void Run(object sender, DoWorkEventArgs e)
         {
-            active = true;
-            while (!terminated && position < text.Length)
+            while (!(sender as BackgroundWorker).CancellationPending && position < text.Length)
             {
                 SpeechPart part = GetPart();
                 if (part != null)
@@ -61,15 +65,28 @@ namespace TextToSpeech
                     position++;
                 }
             }
-            active = false;
+        }
+
+        void Done(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Stopped?.Invoke(this, new EventArgs());
+        }
+
+        public void Start()
+        {
+            if (!worker.IsBusy)
+            {
+                worker.RunWorkerAsync();
+                Started?.Invoke(this, new EventArgs());
+            }
         }
 
         public void Stop()
         {
-            terminated = true;
+            worker.CancelAsync();
         }
 
-        public bool Active => active;
+        public bool Active => worker.IsBusy;
 
         public string Text
         {

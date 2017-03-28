@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TextToSpeech
@@ -18,6 +11,8 @@ namespace TextToSpeech
         {
             InitializeComponent();
             speech = new Speech();
+            speech.Started += speech_Started;
+            speech.Stopped += speech_Stopped;
         }
 
         private void btStartStop_Click(object sender, EventArgs e)
@@ -31,6 +26,21 @@ namespace TextToSpeech
                 speech.Text = mmText.Text;
                 speech.Start();
             }
+        }
+
+        private void fmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            speech.Stop();
+        }
+
+        private void speech_Started(object sender, EventArgs e)
+        {
+            btStartStop.Text = "Зупинити";
+        }
+
+        private void speech_Stopped(object sender, EventArgs e)
+        {
+            btStartStop.Text = "Читати";
         }
     }
 }
