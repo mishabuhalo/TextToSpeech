@@ -10,6 +10,10 @@ namespace TextToSpeech
         public fmMain()
         {
             InitializeComponent();
+
+            trTempo.Minimum = Speech.MIN_TEMPO;
+            trTempo.Maximum = Speech.MAX_TEMPO;
+
             speech = new Speech();
             speech.Started += speech_Started;
             speech.Stopped += speech_Stopped;
@@ -23,6 +27,7 @@ namespace TextToSpeech
             }
             else
             {
+                speech.Tempo = trTempo.Value;
                 speech.Text = mmText.Text;
                 speech.Start();
             }
@@ -36,11 +41,21 @@ namespace TextToSpeech
         private void speech_Started(object sender, EventArgs e)
         {
             btStartStop.Text = "Зупинити";
+            trTempo.Enabled = false;
         }
 
         private void speech_Stopped(object sender, EventArgs e)
         {
             btStartStop.Text = "Читати";
+            trTempo.Enabled = true;
+        }
+
+        private void trTempo_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                trTempo.Value = 0;
+            }
         }
     }
 }

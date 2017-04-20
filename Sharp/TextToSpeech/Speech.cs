@@ -22,9 +22,13 @@ namespace TextToSpeech
 
     class Speech
     {
+        public const int MIN_TEMPO = -25;
+        public const int MAX_TEMPO = 85;
+
         int stream;
         string text = "";
         int position = 0;
+        int tempo = 0;
         BackgroundWorker worker;
 
         SpeechPart[] parts;
@@ -40,7 +44,6 @@ namespace TextToSpeech
             Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
             stream = Bass.BASS_StreamCreateFile("Sounds.wav", 0L, 0L, BASSFlag.BASS_STREAM_DECODE);
             stream = BassFx.BASS_FX_TempoCreate(stream, BASSFlag.BASS_SAMPLE_LOOP | BASSFlag.BASS_FX_FREESOURCE);
-            Bass.BASS_ChannelSetAttribute(stream, BASSAttribute.BASS_ATTRIB_TEMPO, 0);
 
             worker = new BackgroundWorker();
             worker.WorkerSupportsCancellation = true;
@@ -55,6 +58,7 @@ namespace TextToSpeech
 
         void Run(object sender, DoWorkEventArgs e)
         {
+            Bass.BASS_ChannelSetAttribute(stream, BASSAttribute.BASS_ATTRIB_TEMPO, tempo);
             while (!(sender as BackgroundWorker).CancellationPending && position < text.Length)
             {
                 SpeechPart part = GetPart();
@@ -112,6 +116,26 @@ namespace TextToSpeech
                 }
             }
         }
+
+        public int Tempo
+        {
+            get { return tempo; }
+            set
+            {
+                if (value < MIN_TEMPO)
+                {
+                    tempo = MIN_TEMPO;
+                }
+                else if (value > MAX_TEMPO)
+                {
+                    tempo = MAX_TEMPO;
+                }
+                else
+                {
+                    tempo = value;
+                }
+            }
+        }
         
         public event EventHandler Started;
         public event EventHandler Stopped;
@@ -132,16 +156,19 @@ namespace TextToSpeech
         
         void PlayPart(SpeechPart part)
         {
+            int duration = part.Duration * 100 / (100 + tempo);
+
             if (part.Start >= 0)
             {
-                Bass.BASS_ChannelSetPosition(stream, part.Start / 1000.0);
+                double start = part.Start / 1000.0;
+                Bass.BASS_ChannelSetPosition(stream, start);
                 Bass.BASS_ChannelPlay(stream, false);
-                Thread.Sleep(part.Duration);
+                Thread.Sleep(duration);
                 Bass.BASS_ChannelStop(stream);
             }
             else
             {
-                Thread.Sleep(part.Duration);
+                Thread.Sleep(duration);
             }
         }
     }
