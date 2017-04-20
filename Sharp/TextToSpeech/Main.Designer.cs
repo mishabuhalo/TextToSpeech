@@ -41,7 +41,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btStartStop.Location = new System.Drawing.Point(2, 212);
             this.btStartStop.Name = "btStartStop";
-            this.btStartStop.Size = new System.Drawing.Size(454, 29);
+            this.btStartStop.Size = new System.Drawing.Size(473, 29);
             this.btStartStop.TabIndex = 0;
             this.btStartStop.Text = "Читати";
             this.btStartStop.UseVisualStyleBackColor = true;
@@ -56,7 +56,7 @@
             this.mmText.Location = new System.Drawing.Point(2, 2);
             this.mmText.Multiline = true;
             this.mmText.Name = "mmText";
-            this.mmText.Size = new System.Drawing.Size(454, 174);
+            this.mmText.Size = new System.Drawing.Size(473, 174);
             this.mmText.TabIndex = 1;
             this.mmText.Text = "Ви знаєте, як липа шелестить\r\nу місячні весняні ночі?";
             // 
@@ -69,7 +69,7 @@
             this.trTempo.Maximum = 50;
             this.trTempo.Minimum = -20;
             this.trTempo.Name = "trTempo";
-            this.trTempo.Size = new System.Drawing.Size(454, 30);
+            this.trTempo.Size = new System.Drawing.Size(473, 30);
             this.trTempo.TabIndex = 2;
             this.trTempo.TickFrequency = 5;
             this.trTempo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trTempo_MouseUp);
@@ -78,7 +78,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(455, 242);
+            this.ClientSize = new System.Drawing.Size(476, 242);
             this.Controls.Add(this.trTempo);
             this.Controls.Add(this.mmText);
             this.Controls.Add(this.btStartStop);
